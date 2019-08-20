@@ -1,0 +1,76 @@
+========================
+		Database
+========================
+user
+request
+chat
+	spot_key
+	job_key
+	user_key
+	account_key
+	username
+	message
+account
+	user_key
+	crew_key
+	alias
+	cash
+	reputation_amount
+	reputation_good_count
+	reputation_bad_count
+	kill_count
+	arrested_count
+	is_dead
+	is_in_jail
+	jail_sentence_end_timestamp
+crew
+	crew_name
+	crew_password
+spot
+	name
+	description
+invitation
+	job_key
+	ringleader_user_key
+job
+	template_job_key
+	ringleader_key
+	maximum_sentence_minutes
+	maximum_fine_amount
+	is_complete
+	is_success
+	is_stolen
+	is_bribe_attempted
+	is_baild
+	payout_amount
+	bribe_amount
+	is_bribe_success
+	is_snitched
+role
+	job_key
+	account_key
+	skill_key
+	skill_difficulty
+	execute_order_index
+	execute_description_success
+	execute_description_failure
+	did_bail
+	did_execute
+	did_success
+	did_snitch
+	payout_amount_received
+	sentence_served_minutes
+	fine_paid_amount
+template_job
+	name
+	role_count
+	maximum_sentence_minutes
+	maximum_fine_amount
+	payout_amount
+template_role
+	template_job_key
+	skill_key
+	skill_difficulty
+	execute_order_index
+skills
+	name

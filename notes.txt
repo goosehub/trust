@@ -1,0 +1,169 @@
+================================================
+					Trust
+================================================
+
+auctions?
+kill?
+kill to take money
+
+========================
+		Todo
+========================
+
+	High
+Database scheme
+UI Mock Ups
+	Moderate
+	Low
+Login
+Accounts
+Rooms
+Chat
+View User
+Pick Job
+Crew Invite
+Crew Join
+Job Start
+Kill Crew
+Force Execute Step
+Execute Job
+Conclude Job
+Betray
+Payout
+Ultimatum
+Bribe
+Snitch
+Jail
+Karma
+Reset
+
+========================
+		Flow
+========================
+Homepage
+Start Alias
+Network
+	Start A Crew
+		Pick A Location
+			Recruit players
+	Look for Crew
+		Pick A Location
+			Ask to join a crew
+	Job
+Jobs
+	Execute
+		See chance of success
+		Bail
+		Perform
+	Conclude
+		Score
+			Steal
+				Payout
+					Ultimatum
+		Busted
+			Bribe
+				Escape
+				Snitch
+					Jail
+Reputation
+
+========================
+		UI
+========================
+
+Homepage
+Register
+Login
+How To Play
+Alias Management
+Job Start Look Page
+Job Selection
+Location Selection
+Chat Interface
+User Sort
+User Info View
+Send Invite Interface
+Accept Invite Interface
+Job Status View
+Crew Chat
+Execute Chance, Bail, Perform UI
+Conclude View
+Ringleader Steal
+Ringleader Payout
+Payout Accept, Reject
+Bribe Interface
+Snith Interface
+Jail Interface
+Reputation Interface
+
+========================
+		Games
+========================
+	Skills
+		Builds with Experience, more on a success
+	Network
+		Screening game
+			Only allow users who you can trust
+			Join a guild room
+			Click on name of those who chat to view reputation and DM
+			DM a passcode to invite to job
+	Plan Job
+		El Farol Bar problem
+			Popularity of job affects stats
+			Pick a job
+			Each job can only be started by one role
+			More people make job more likely to succeed
+			Different skills make different jobs more or less likely to succeed
+			Skill in job more likely to succeed
+			More people can split cost of job
+			Some jobs more expensive and risky than others
+	Execute Job
+		Some sort of Coordination Game
+		Result based on job and stats
+		Calculates each in order until it hits a failure point
+	Betray
+		Leader can steal some or all of the payout
+	Payout
+		Leader distributes the cash
+	Ultimatum
+		If at least half reject the distribution, they can kill them and next in rank does the Payout
+	Bribe
+		Bribe at least 2/3rd the average of all bribes for bribe to be accepted
+	Snitch
+		Prisoners Dilemma, values based on job riskiness, if no snitch, only a chance of jail time
+	Karma
+		Give and receive 1 good or bad reputation to 1 player on job
+
+========================
+Links
+========================
+
+Research
+	https://en.wikipedia.org/wiki/List_of_games_in_game_theory
+	https://www.youtube.com/channel/UCQMyhrt92_8XM0KgZH6VnRg=
+
+Prisoners Delimma
+	https://en.wikipedia.org/wiki/Prisoner%27s_dilemma
+Battle of the sexes
+	https://en.wikipedia.org/wiki/Battle_of_the_sexes_(game_theory)
+Centipede game
+	https://en.wikipedia.org/wiki/Centipede_game
+Guess 2/3rd the average
+	https://en.wikipedia.org/wiki/Guess_2/3_of_the_average
+Stag Hunt
+	https://en.wikipedia.org/wiki/Stag_hunt
+Traveler's dilemma (Small number wins)
+	https://en.wikipedia.org/wiki/Traveler%27s_dilemma
+Ultimatum game
+	https://en.wikipedia.org/wiki/Ultimatum_game
+
+El Farol Bar problem
+	https://en.wikipedia.org/wiki/El_Farol_Bar_problem
+Platonia Dilemma
+	https://en.wikipedia.org/wiki/Platonia_dilemma
+Volunteer's dilemma
+	https://en.wikipedia.org/wiki/Volunteer%27s_dilemma
+Tragedy of the commons
+	https://en.wikipedia.org/wiki/Tragedy_of_the_commons
+Public Goods Game
+	https://en.wikipedia.org/wiki/Public_goods_game
