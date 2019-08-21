@@ -111,6 +111,9 @@ function load_user() {
 }
 
 function update_favorite_rooms() {
+    if (!favorite_room_keys) {
+        return;
+    }
     favorite_room_keys = new Array();
     favorite_rooms.forEach(function (favorite_room) {
         favorite_room_keys.push(parseInt(favorite_room.room_key));
