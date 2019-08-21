@@ -65,9 +65,9 @@ p {
         <?php
         // Shhhh
         $easter_egg = array(
-                'Dude, where\'s my world',
-                'This is not the world you\'re looking for',
-                'Where\'s the world Lebowski? Where\'s the world?'
+                'Dude, where\'s my page',
+                'This is not the page you\'re looking for',
+                'Where\'s the page Lebowski? Where\'s the page?'
                 ); 
         shuffle($easter_egg);
         ?>

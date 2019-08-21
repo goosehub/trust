@@ -4,6 +4,9 @@
             <h1 class="text-center landing-site-title black-color">
                 <?php echo strtoupper(site_name()); ?>
             </h1>
+            <h2 class="text-center" style="font-family: monospace;">
+                In Pre-Alpha
+            </h2>
             <br class="hidden-xs hidden-sm">
             <div class="row">
                 <div class="col-sm-2">
@@ -11,17 +14,17 @@
                 <div class="col-sm-8">
                     <p class="lead black-color landing-lead-text">
                         <i class="fa fa-globe" aria-hidden="true"></i>
-                        Expore the earth
+                        A Game Of Skill
                     </p>
                     <br class="hidden-xs hidden-sm">
                     <p class="lead black-color landing-lead-text">
                         <i class="fa fa-map" aria-hidden="true"></i>
-                        Create your own map
+                        A Game Of Crime
                     </p>
                     <br class="hidden-xs hidden-sm">
                     <p class="lead black-color landing-lead-text">
                         <i class="fa fa-street-view" aria-hidden="true"></i>
-                        Talk with people from around the world
+                        A Game Of Trust
                     </p>
                 </div>
                 <div class="col-sm-2">
@@ -39,22 +42,16 @@
                     <?php if (!$user) { ?>
                     <div class="text-center">
                         <div class="row">
-                            <div class="landing_login_button_parent col-sm-4">
+                            <div class="landing_login_button_parent col-sm-6">
                                 <button class="landing_login_button landing_action_button form-control menu_element btn btn-default">
                                     <i class="fa fa-sign-in" aria-hidden="true"></i>
                                     Login
                                 </button>
                             </div>
-                            <div class="landing_register_button_parent col-sm-4">
+                            <div class="landing_register_button_parent col-sm-6">
                                 <button class="landing_register_button landing_action_button form-control menu_element btn btn-default">
                                     <i class="fa fa-user-plus" aria-hidden="true"></i>
                                     Join
-                                </button>
-                            </div>
-                            <div class="landing_guest_button_parent col-sm-4">
-                                <button class="landing_guest_button landing_action_button form-control menu_element btn btn-default">
-                                    <i class="fa fa-user" aria-hidden="true"></i>
-                                    Guest
                                 </button>
                             </div>
                         </div>
@@ -113,6 +110,7 @@
                             <div class="form-group">
                                 <input type="hidden" name="bee_movie" id="bee_movie" value="">
                                 <input type="hidden" name="ab_test" id="ab_test" value="">
+                                <input type="hidden" name="register_location" value="">
                                 <label for="input_username">
                                     <i class="fa fa-user-circle" aria-hidden="true"></i>
                                     Username
@@ -140,16 +138,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="register_location">
-                                            <i class="fa fa-map" aria-hidden="true"></i>
-                                            Location
-                                        </label>
-                                        <input type="location" class="form-control" id="register_location" name="register_location" value="<?php echo $location_prepopulate; ?>">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="register_color">
                                             <i class="fa fa-commenting-o" aria-hidden="true"></i>
@@ -167,19 +156,11 @@
                     </div>
                     <?php } ?>
 
-                    <?php if (!$user) { ?>
-                    <div id="guest_block" class="landing_center_block well hidden-xs hidden-sm">
-                        <p class="lead black-color text-info">
-                            Use "Discover Worlds"
-                            to the right
-                            to get started.
-                        </p>
-                    </div>
-                    <?php } ?>
-
                     <?php if ($user) { ?>
                     <div class="well">
-                        <h2 class="pull-left">Create World</h2>
+                        <a href="" class="btn btn-lg btn-action">
+                            Go To Game
+                        </a>
                         <p class="pull-right">
                             <a class="logout_button" href="<?=base_url()?>user/logout">
                                 <small>
@@ -189,27 +170,13 @@
                             </a>
                         </p>
                         <div class="clearfix"></div>
-                        <!-- Validation Errors -->
-                        <span class="text-danger">
-                            <?php if ($failed_form === 'create_world') { echo $validation_errors; } ?>
-                        </span>
-                        <form class="form" id="create_world_form" action="<?=base_url()?>world/create" method="post">
-                            <div class="form-group">
-                                <label for="world_slug">
-                                    World Slug
-                                    <small class="text-info">(no spaces)</small>
-                                </label>
-                                <input type="text" name="slug" class="form-control" id="world_slug" placeholder="">
-                            </div>
-                            <button type="submit" class="btn btn-action">Create Your World</button>
-                        </form>
                     </div>
                     <?php } ?>
                     <br class="hidden-xs hidden-sm">
                     <br class="hidden-xs hidden-sm">
                     <div class="landing_links_parent text-center">
                         <span>
-                            <a class="btn btn-link landing_link" href="https://github.com/goosehub/bigworld" target="_blank">
+                            <a class="btn btn-link landing_link" href="https://github.com/goosehub/trust" target="_blank">
                                 <i class="fa fa-github" aria-hidden="true"></i>
                                 GitHub
                             </a>
@@ -221,9 +188,9 @@
                             </a>
                         </span>
                         <span>
-                            <a class="btn btn-link landing_link" href="https://www.reddit.com/r/bigworldio/" target="_blank">
+                            <a class="btn btn-link landing_link" href="https://www.reddit.com/r/trustgame/" target="_blank">
                                 <i class="fa fa-reddit-alien" aria-hidden="true"></i>
-                                /r/bigworldio
+                                /r/trustgame
                             </a>
                         </span>
                         <span>
@@ -242,62 +209,11 @@
             <br class="hidden-xs hidden-sm">
             <div class="well">
                 <h2>
-                    <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
-                    Discover Worlds
+                    How To Play:
                 </h2>
-                <span class="landing-world-container">
-                    <a href="<?=base_url()?>?sort=activity" class="landing-sort-button btn <?php echo $sort === 'activity' ? 'btn-primary disabled' : 'btn-default' ?>">
-                        <?php if ($sort === 'activity') { ?>
-                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                        <?php } ?>
-                        Sort By Activity
-                    </a>
-                </span>
-                <span>
-                    <a href="<?=base_url()?>?sort=size" class="landing-sort-button btn <?php echo $sort === 'size' ? 'btn-primary disabled' : 'btn-default' ?>">
-                        <?php if ($sort === 'size') { ?>
-                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                        <?php } ?>
-                        Sort By Size
-                    </a>
-                </span>
-                <span>
-                    <a href="<?=base_url()?>?sort=alphabetical" class="landing-sort-button btn <?php echo $sort === 'alphabetical' ? 'btn-primary disabled' : 'btn-default' ?>">
-                        <?php if ($sort === 'alphabetical') { ?>
-                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                        <?php } ?>
-                        Sort By Alphabet
-                    </a>
-                </span>
-                <span>
-                    <!-- Random is not disabled -->
-                    <a href="<?=base_url()?>?sort=random" class="landing-sort-button btn <?php echo $sort === 'random' ? 'btn-primary' : 'btn-default' ?>">
-                        <?php if ($sort === 'random') { ?>
-                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-                        <?php } ?>
-                        Sort By Random
-                    </a>
-                </span>
-                <br class="hidden-xs hidden-sm">
-                <br class="hidden-xs hidden-sm">
-                <div class="landing-world-list-container">
-                    <?php foreach ($worlds as $world) { ?>
-                    <span class="landing-world-container">
-                        <a href="<?=base_url()?><?php echo $world['slug']; ?>" class="btn btn-default landing-world-button">
-                            <?php echo $world['slug']; ?>
-                        </a>
-                    </span>
-                    <?php } ?>
-                    <?php if ($fake_worlds = false) { ?>
-                    <?php for ($i = 0; $i < 1000; $i++) { ?>
-                    <span class="landing-world-container">
-                        <a href="<?=base_url()?>foobar" class="btn btn-default landing-world-button">
-                            <?php echo str_repeat(rand(0, 9999), rand(1, 3)); ?>
-                        </a>
-                    </span>
-                    <?php } ?>
-                    <?php } ?>
-                </div>
+                <p class="lead">
+                    Coming soon
+                </p>
             </div>
         </div>
     </div>

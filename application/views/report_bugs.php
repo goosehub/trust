@@ -33,6 +33,6 @@
         </ul>
     </p>
     <p>
-        This project can also be found on <a href="https://github.com/goosehub/bigworld" target="_blank">Github</a>
+        This project can also be found on <a href="https://github.com/goosehub/trust" target="_blank">Github</a>
     </p>
 </div>

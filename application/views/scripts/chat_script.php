@@ -6,7 +6,7 @@ var window_active = true;
 var page_title = '';
 var missed_messages = 0;
 var users_array = new Array();
-var room_name = 'Big World';
+var room_name = '<?php echo site_name(); ?>';
 var load_interval = <?php echo CHAT_LOAD_POLLING_SECONDS; ?>;
 var system_user_id = <?php echo SYSTEM_USER_ID; ?>;
 
@@ -34,7 +34,7 @@ else if (localStorage.getItem('theme') === 'dark') {
     toggle_theme(false);
 }
 else  {
-    toggle_theme(is_mobile);
+    toggle_theme(false);
 }
 
 // Keep dropdown open on altering color

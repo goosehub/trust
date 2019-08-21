@@ -67,7 +67,7 @@ class User extends CI_Controller {
         $this->session->set_userdata('user_session', $sess_array);
 
         // Redirect to homepage
-        redirect($this->input->post('current_url'), 'refresh');
+        redirect(base_url() . 'world', 'refresh');
     }
 
     // Register
@@ -99,7 +99,7 @@ class User extends CI_Controller {
 
         // Success
         $this->session->set_flashdata('just_registered', true);
-        redirect($this->input->post('current_url'), 'refresh');
+        redirect(base_url() . 'world', 'refresh');
     }
 
     // Validate Register Callback

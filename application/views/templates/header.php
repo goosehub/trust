@@ -11,7 +11,7 @@
         <title><?php echo $page_title; ?></title>
 
         <!-- Google please read this -->
-        <meta name="description" content="Big World - Talk with people inside Google Maps">
+        <meta name="description" content="Trust - A game of crime and trust">
 
         <!-- Link to Favicon -->
         <link rel="icon" href="<?=base_url()?>resources/img/favicon.ico">

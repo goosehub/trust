@@ -2,9 +2,7 @@
 					Trust
 ================================================
 
-auctions?
-kill?
-kill to take money
+
 
 ========================
 		Todo
@@ -12,30 +10,9 @@ kill to take money
 
 	High
 Database scheme
-UI Mock Ups
 	Moderate
+UI
 	Low
-Login
-Accounts
-Rooms
-Chat
-View User
-Pick Job
-Crew Invite
-Crew Join
-Job Start
-Kill Crew
-Force Execute Step
-Execute Job
-Conclude Job
-Betray
-Payout
-Ultimatum
-Bribe
-Snitch
-Jail
-Karma
-Reset
 
 ========================
 		Flow
@@ -49,8 +26,8 @@ Network
 	Look for Crew
 		Pick A Location
 			Ask to join a crew
-	Job
 Jobs
+	Pick
 	Execute
 		See chance of success
 		Bail
@@ -76,6 +53,8 @@ Register
 Login
 How To Play
 Alias Management
+Crew Start
+Crew Invite
 Job Start Look Page
 Job Selection
 Location Selection

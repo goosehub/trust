@@ -35,9 +35,7 @@
     <div id="message_outer_parent">
         <div id="message_content_parent">
             <div id="empty_room_message" class="text-center">
-                <p>Welcome to <?php echo $world['slug']; ?></p>
-                <p>Click on any pin to join a conversation</p>
-                <p>Make an account to create your own pins</p>
+                <p>Info on what to do</p>
             </div>
         </div>
         <div id="message_input_parent">

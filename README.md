@@ -1,6 +1,6 @@
-<h1>Big World</h1>
+<h1>Trust</h1>
 
-<p>Big World is a social network for creating and joining chat rooms that exist on a shared google map. It is in Alpha and not ready for public release.</p>
+<p>Trust is a MMO game of crime and trust. It uses several game theory concepts. It is in Alpha and not ready for public release.</p>
 
 <h2>Set up an instance</h2>
 

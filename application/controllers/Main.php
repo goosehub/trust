@@ -27,9 +27,6 @@ class Main extends CI_Controller {
         // Decide sort
         $data['sort'] = $this->input->get('sort') ? $this->input->get('sort') : WORLD_DEFAULT_SORT;
 
-        // Get Worlds
-        $data['worlds'] = $this->world_model->get_all_worlds($data['sort']);
-
         // Load view
         $data = $this->registration_starting_details($data);
         $data['page_title'] = site_name();
@@ -41,10 +38,13 @@ class Main extends CI_Controller {
         $this->load->view('templates/footer', $data);
     }
 
-    public function world($slug)
+    public function world($slug = 'world')
     {
         // Authentication
         $data['user'] = $this->user_model->get_this_user();
+        if (!$data['user']) {
+            redirect(base_url(), 'refresh');
+        }
 
         // Get World
         $data['world'] = $this->world_model->get_world_by_slug($slug);
@@ -53,12 +53,6 @@ class Main extends CI_Controller {
             $this->load->view('templates/world_404', $data);
             return;
         }
-
-        // Get Worlds
-        $data['favorite_worlds'] = $this->world_model->get_favorite_worlds_by_user_key($data['user']['id']);
-
-        // Check if current world is favorite
-        $data['world_is_favorite'] = $this->world_is_favorite($data);
 
         // Get filters
         $data['filters'] = $this->get_filters();
@@ -217,16 +211,6 @@ class Main extends CI_Controller {
             }
         }
         return $this->filters()['all'];
-    }
-
-    public function world_is_favorite($data)
-    {
-        foreach ($data['favorite_worlds'] as $favorite_world) {
-            if ($favorite_world['world_key'] === $data['world']['id']) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public function registration_starting_details($data)

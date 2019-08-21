@@ -248,3 +248,10 @@ ALTER TABLE `message`
 
 ALTER TABLE `room`
   ADD CONSTRAINT `rooms_world_key_cascade` FOREIGN KEY (`world_key`) REFERENCES `world` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- 
+-- Data
+-- 
+
+INSERT INTO `world` (`id`, `slug`, `user_key`, `archived`, `last_load`, `created`, `modified`) VALUES
+(1, 'world', 1, 0, '2019-08-20 12:00:00', '0000-00-00 00:00:00', '2019-08-20 12:00:00');
