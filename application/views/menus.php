@@ -1,5 +1,17 @@
 <div id="menu_parent">
 
+    <!-- Unread messages -->
+    <?php if ($user) { ?>
+    <div class="unread_pm_rooms_menu_parent menu_element btn-group" style="display: none;">
+        <button id="unread_pm_rooms_button" class="btn btn-sm btn-action dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <i class="fa fa-envelope" aria-hidden="true"></i>
+            <span class="caret"></span>
+        </button>
+        <ul id="unread_pm_rooms" class="dropdown-menu dropdown-menu-right" aria-labelledby="unread_pm_rooms_button">
+        </ul>
+    </div>
+    <?php } ?>
+
     <!-- Homepage -->
     <div class="homepage_link_menu_parent menu_element btn-group">
         <a class="btn btn-sm btn-default text-primary" id="homepage_link" title="Homepage" href="<?=base_url()?>">
@@ -71,6 +83,47 @@
                 </a>
             </li>
             <?php } ?>
+            <?php } ?>
+        </ul>
+    </div>
+    <?php } ?>
+
+    <!-- Favorite Worlds -->
+    <?php if ($user) { ?>
+    <div class="favorite_worlds_menu_parent menu_element btn-group">
+        <button id="favorite_worlds_button" class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
+            <span class="caret"></span>
+        </button>
+        <ul id="filter_dropdown" class="dropdown-menu dropdown-menu-right" aria-labelledby="favorite_worlds_button">
+            <li>
+                <div class="world_link text-center">
+                    <i class="fa fa-circle" aria-hidden="true"></i>
+                    Starred Worlds
+                    <i class="fa fa-circle" aria-hidden="true"></i>
+                </div>
+            </li>
+            <li>
+                <a class="world_link text-center <?php echo $world_is_favorite ? 'active' : ''; ?>" id="favorite_world_button" href="javascript:void(0)">
+                    <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                    <span class="text-default">
+                        <?php echo $world['slug']; ?>
+                    </span>
+                    <button id="favorite_world_remove_icon" class="btn btn-sm btn-link" aria-hidden="true" style="<?php echo $world_is_favorite ? '' : 'display: none;'; ?>">
+                        (Un-Star)
+                    </button>
+                    <button id="favorite_world_add_icon" class="btn btn-sm btn-link" aria-hidden="true" style="<?php echo $world_is_favorite ? 'display: none;' : ''; ?>">
+                        (Make Starred)
+                    </button>
+                </a>
+            </li>
+            <?php foreach ($favorite_worlds as $favorite_world) { ?>
+            <?php if ($favorite_world['world_key'] === $world['id']) { continue; } ?>
+            <li>
+                <a class="world_link text-center" href="<?=base_url()?><?php echo $favorite_world['slug']; ?>">
+                    <?php echo $favorite_world['slug']; ?>
+                </a>
+            </li>
             <?php } ?>
         </ul>
     </div>
