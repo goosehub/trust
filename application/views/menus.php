@@ -88,47 +88,6 @@
     </div>
     <?php } ?>
 
-    <!-- Favorite Worlds -->
-    <?php if ($user) { ?>
-    <div class="favorite_worlds_menu_parent menu_element btn-group">
-        <button id="favorite_worlds_button" class="btn btn-sm btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            <span class="glyphicon glyphicon-globe" aria-hidden="true"></span>
-            <span class="caret"></span>
-        </button>
-        <ul id="filter_dropdown" class="dropdown-menu dropdown-menu-right" aria-labelledby="favorite_worlds_button">
-            <li>
-                <div class="world_link text-center">
-                    <i class="fa fa-circle" aria-hidden="true"></i>
-                    Starred Worlds
-                    <i class="fa fa-circle" aria-hidden="true"></i>
-                </div>
-            </li>
-            <li>
-                <a class="world_link text-center <?php echo $world_is_favorite ? 'active' : ''; ?>" id="favorite_world_button" href="javascript:void(0)">
-                    <i class="fa fa-chevron-right" aria-hidden="true"></i>
-                    <span class="text-default">
-                        <?php echo $world['slug']; ?>
-                    </span>
-                    <button id="favorite_world_remove_icon" class="btn btn-sm btn-link" aria-hidden="true" style="<?php echo $world_is_favorite ? '' : 'display: none;'; ?>">
-                        (Un-Star)
-                    </button>
-                    <button id="favorite_world_add_icon" class="btn btn-sm btn-link" aria-hidden="true" style="<?php echo $world_is_favorite ? 'display: none;' : ''; ?>">
-                        (Make Starred)
-                    </button>
-                </a>
-            </li>
-            <?php foreach ($favorite_worlds as $favorite_world) { ?>
-            <?php if ($favorite_world['world_key'] === $world['id']) { continue; } ?>
-            <li>
-                <a class="world_link text-center" href="<?=base_url()?><?php echo $favorite_world['slug']; ?>">
-                    <?php echo $favorite_world['slug']; ?>
-                </a>
-            </li>
-            <?php } ?>
-        </ul>
-    </div>
-    <?php } ?>
-
     <!-- User Dropdown -->
     <?php if ($user) { ?>
     <div class="user_menu_parent menu_element btn-group">
