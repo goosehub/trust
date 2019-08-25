@@ -133,9 +133,6 @@ function load_room(room_id) {
 
         // Set up room
         window.location.hash = room_id;
-        console.log('marco');
-        console.log(room);
-        console.log(room.name);
         let room_name = parse_room_name(room.name);
         let passcode_string = room.room_passcode ? 'PC: ' + room.room_passcode : '';
         $('.room_name').html(room_name);
@@ -144,12 +141,15 @@ function load_room(room_id) {
         $('#zoom_in_button').show();
 
         // Switch marker icons
-        if (current_marker && favorite_room_keys.includes(parseInt(current_marker.room_id))) {
-            current_marker.setIcon(favorite_marker_img);
+        if (current_marker) {
+            current_marker.setIcon(find_icon_to_use(current_marker.room_id, current_marker.is_base));
         }
-        else if (current_marker) {
-            current_marker.setIcon(default_marker_img);
-        }
+        // if (current_marker && favorite_room_keys.includes(parseInt(current_marker.room_id))) {
+        //     current_marker.setIcon(favorite_marker_img);
+        // }
+        // else if (current_marker) {
+        //     current_marker.setIcon(default_marker_img);
+        // }
         if (markers[room_id]) {
             markers[room_id].setIcon(current_marker_img);
             current_marker = markers[room_id];
@@ -262,6 +262,9 @@ function messages_load(room_key, inital_load) {
             }
             if (inital_load) {
                 $("#message_content_parent").html('');
+            }
+            if (!response) {
+                return;
             }
             // Parse messages and loop through them
             messages = JSON.parse(response);

@@ -146,7 +146,7 @@ Class room_model extends CI_Model
         return isset($result[0]) ? $result[0] : false;
     }
 
-    function create_room_memeber($user_key,  $room_key, $room_passcode)
+    function create_room_memeber($user_key,  $room_key)
     {
         $data = array(
             'user_key' => $user_key,
@@ -183,6 +183,18 @@ Class room_model extends CI_Model
         $this->db->where('favorite_room.user_key', $user_key);
         $this->db->where('favorite_room.world_key', $world_key);
         $this->db->join('favorite_room', 'favorite_room.room_key = room.id', 'right');
+        $query = $this->db->get();
+        $result = $query->result_array();
+        return $result;
+    }
+
+    function get_joined_rooms_by_user_key($user_key, $world_key)
+    {
+        $this->db->select('*');
+        $this->db->from('room');
+        $this->db->where('room_members.user_key', $user_key);
+        $this->db->where('room_members.world_key', $world_key);
+        $this->db->join('room_members', 'room_members.room_key = room.id', 'right');
         $query = $this->db->get();
         $result = $query->result_array();
         return $result;

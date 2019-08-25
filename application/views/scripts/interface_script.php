@@ -8,15 +8,22 @@ $('.report_bugs_button').click(function(){
 });
 
 var user;
-var favorite_room_keys = new Array();
 <?php if ($user) { ?>
 user = <?php echo json_encode($user); ?>;
 var user_load_polling_seconds = <?php echo USER_LOAD_POLLING_SECONDS; ?>;
 <?php } ?>
+
 <?php if (!$landing && $user) { ?>
+var favorite_room_keys = new Array();
 var favorite_rooms = <?php echo json_encode($user['favorite_rooms']); ?>;
 favorite_rooms.forEach(function (favorite_room) {
     favorite_room_keys.push(parseInt(favorite_room.room_key));
+});
+
+var joined_room_keys = new Array();
+var joined_rooms = <?php echo json_encode($user['joined_rooms']); ?>;
+joined_rooms.forEach(function (joined_room) {
+    joined_room_keys.push(parseInt(joined_room.room_key));
 });
 <?php } ?>
 

@@ -82,7 +82,7 @@ class Room extends CI_Controller {
         }
 
         // Create member record
-        $data['member_created'] = $this->room_model->create_room_memeber($user['id'], $input->room_id, $input->room_passcode);
+        $data['member_created'] = $this->room_model->create_room_memeber($user['id'], $input->room_id);
         if (!$data['member_created']) {
             echo api_error_response('already_member', 'You have already joined this crew.');
             return false;
@@ -166,6 +166,11 @@ class Room extends CI_Controller {
         $room['user_key'] = isset($user['id']) ? $user['id'] : null;
         // Insert room
         $room['id'] = $this->room_model->insert_room($room);
+
+        // Creator is always a member
+        if ($room['is_base']) {
+            $this->room_model->create_room_memeber($user['id'], $room['id']);
+        }
 
         // Respond
         echo api_response($room);

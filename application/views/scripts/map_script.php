@@ -18,6 +18,7 @@ var blue_marker_img = 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png';
 var red_marker_img = 'https://maps.google.com/mapfiles/ms/icons/red-dot.png';
 var purple_marker_img = 'https://maps.google.com/mapfiles/ms/icons/purple-dot.png';
 var yellow_marker_img = 'https://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
+var orange_marker_img = 'https://maps.google.com/mapfiles/ms/icons/orange-dot.png';
 
 // Map room polling
 var map_room_polling_seconds = <?php echo MAP_ROOM_POLLING_SECONDS; ?>;
@@ -28,7 +29,7 @@ var default_marker_img = blue_marker_img;
 var current_marker_img = classic_marker_img;
 var favorite_marker_img = green_marker_img;
 var crew_marker_img = purple_marker_img;
-var current_crew_marker_img = red_marker_img;
+var joined_crew_marker_img = orange_marker_img;
 // Google Map Created Callback
 var map;
 var messages_load_interval_id;
@@ -88,7 +89,8 @@ function initMap() {
         map: map,
         title: '<?php echo addcslashes($room['name'], "'"); ?>',
         room_id: <?php echo $room['id'] ?>,
-        icon: favorite_room_keys.includes(<?php echo $room['id'] ?>) ? favorite_marker_img : default_marker_img
+        is_base: <?php echo $room['is_base'] ?>,
+        icon: find_icon_to_use(<?php echo $room['id'] ?>, <?php echo $room['is_base'] ?>)
     });
 
     // Open room on click
@@ -176,6 +178,7 @@ function initMap() {
                     map: map,
                     title: room.name,
                     room_id: parseInt(room.id),
+                    is_base: parseInt(room.is_base),
                     icon: default_marker_img
                 });
                 if (room.id == current_marker.room_id) {
@@ -255,6 +258,7 @@ function initMap() {
                 map: map,
                 title: result.name,
                 room_id: result.id,
+                is_base: result.is_base,
             });
 
             // Open room on click
@@ -265,15 +269,14 @@ function initMap() {
 
             // Switch marker icons
             if (current_marker) {
-                if (favorite_room_keys.includes(current_marker.room_key)) {
-                    current_marker.setIcon(favorite_marker_img);
-                }
-                else {
-                    current_marker.setIcon(default_marker_img);
-                }
+                current_marker.setIcon(find_icon_to_use(current_marker.room_key, current_marker.is_base));
             }
             markers[result.id].setIcon(current_marker_img);
             current_marker = markers[result.id];
+
+            if (data.is_base) {
+                joined_room_keys.push(result.id);
+            }
 
             // Load room
             load_room(result.id);
@@ -291,6 +294,19 @@ function initMap() {
         } );
     }
 
+}
+
+function find_icon_to_use(room_id, room_is_base) {
+    if (favorite_room_keys.includes(room_id)) {
+        return favorite_marker_img;
+    }
+    if (joined_room_keys.includes(room_id)) {
+        return joined_crew_marker_img;
+    }
+    if (room_is_base) {
+        return crew_marker_img;
+    }
+    return default_marker_img;
 }
 </script>
 

@@ -63,6 +63,9 @@ class Main extends CI_Controller {
             
             // Include favorite_roomd rooms
             $data['user']['favorite_rooms'] = $this->room_model->get_favorite_rooms_by_user_key($data['user']['id'], $data['world']['id']);
+            
+            // Include favorite_roomd rooms
+            $data['user']['joined_rooms'] = $this->room_model->get_joined_rooms_by_user_key($data['user']['id'], $data['world']['id']);
         }
 
         // Get last activity filter if exists
