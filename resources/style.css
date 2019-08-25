@@ -173,6 +173,11 @@ body {
     left: 12.5%;
 }
 
+/* Create Room */
+.room_type_action_button {
+    border-radius: 0.5em 0.5em 0 0;
+}
+
 /* Room */
 #room_parent {
     position: absolute;

@@ -219,13 +219,19 @@ function initMap() {
 
         // Create room on button click
         $('#create_room_submit').off().click(function(){
-            if ($('#input_room_name').val()) {
-                create_room(location);
-            }
+            create_room(location);
         });
     }
 
     function create_room(location) {
+        // if (!$('#input_room_name').val()) {
+        //     alert('Room name required');
+        //     return false;
+        // }
+        // if ($('#input_is_base').val() && !$('#input_room_passcode').val()) {
+        //     alert('Crew rooms require a passcode');
+        //     return false;
+        // }
         var url = 'room/create';
         var data = {};
         data.lat = location.lat();
@@ -233,6 +239,8 @@ function initMap() {
         data.world_id = world_id;
         data.room_name = $('#input_room_name').val();
         data.world_key = $('#input_world_key').val();
+        data.is_base = $('#input_is_base').val();
+        data.room_passcode = $('#input_room_passcode').val();
         ajax_post(url, data, function(result){
             if (result.error) {
                 alert(result.error_message);

@@ -175,5 +175,19 @@ $('.landing_register_button').click(function(){
         $('.landing_center_block').hide();
         $('#register_block').show();
 });
+$('.room_type_select_public').click(function(){
+    $('.room_type_select_crew').removeClass('btn-action').addClass('btn-default');
+    $('.room_type_select_public').removeClass('btn-default').addClass('btn-action');
+    $('#input_is_base').val(0);
+    $('.room_type_public').show();
+    $('.room_typt_crew').hide();
+});
+$('.room_type_select_crew').click(function(){
+    $('.room_type_select_public').removeClass('btn-action').addClass('btn-default');
+    $('.room_type_select_crew').removeClass('btn-default').addClass('btn-action');
+    $('#input_is_base').val(1);
+    $('.room_typt_crew').show();
+    $('.room_type_public').hide();
+});
 
 </script>

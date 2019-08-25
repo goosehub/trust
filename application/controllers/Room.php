@@ -56,8 +56,21 @@ class Room extends CI_Controller {
 
         // Validate input
         $input = get_json_post(true);
-        if (!isset($input->room_name)) {
+        if (!isset($input->room_name) || !$input->room_name) {
             echo api_error_response('room_name_missing', 'Room name is a required parameter and was not provided.');
+            return false;
+        }
+        if (!isset($input->is_base)) {
+            echo api_error_response('is_base_missing', 'Is base is a required parameter and was not provided.');
+            return false;
+        }
+        if (!isset($input->room_passcode) || ($input->is_base && !$input->room_passcode)) {
+            echo api_error_response('room_passcode_missing', 'Room passcode is a required parameter and was not provided.');
+            return false;
+        }
+        $max_length_room_passcode = 40;
+        if ($input->is_base && strlen($input->room_passcode) > $max_length_room_passcode) {
+            echo api_error_response('room_passcode_too_long', 'Room passcode is too long.');
             return false;
         }
         if (!isset($input->lat)) {
@@ -91,6 +104,8 @@ class Room extends CI_Controller {
         $room = array();
         $room['name'] = $input->room_name;
         $room['world_key'] = $input->world_key;
+        $room['is_base'] = $input->is_base;
+        $room['room_passcode'] = $input->room_passcode;
         $room['lat'] = $input->lat;
         $room['lng'] = $input->lng;
         $room['last_message_time'] = date('Y-m-d H:i:s');

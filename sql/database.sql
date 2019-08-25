@@ -29,6 +29,8 @@ crew
 spot
 	name
 	description
+	is_base
+	base_passcode
 invitation
 	job_key
 	ringleader_user_key
