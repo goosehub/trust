@@ -135,6 +135,17 @@ Class room_model extends CI_Model
         return isset($result[0]) ? $result[0] : false;
     }
 
+    function get_room_memeber($user_key, $room_key)
+    {
+        $this->db->select('*');
+        $this->db->from('room_members');
+        $this->db->where('user_key', $user_key);
+        $this->db->where('room_key', $room_key);
+        $query = $this->db->get();
+        $result = $query->result_array();
+        return isset($result[0]) ? $result[0] : false;
+    }
+
     function delete_favorite_room($user_key, $room_key)
     {
         $this->db->where('user_key', $user_key);

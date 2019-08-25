@@ -27,6 +27,8 @@ var current_last_activity_slug = '<?php echo $current_last_activity_filter['slug
 var default_marker_img = blue_marker_img;
 var current_marker_img = classic_marker_img;
 var favorite_marker_img = green_marker_img;
+var crew_marker_img = purple_marker_img;
+var current_crew_marker_img = red_marker_img;
 // Google Map Created Callback
 var map;
 var messages_load_interval_id;

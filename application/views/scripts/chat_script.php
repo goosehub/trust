@@ -114,7 +114,9 @@ function load_room(room_id) {
         // Set up room
         window.location.hash = room_id;
         let room_name = parse_room_name(room.name);
-        $('#room_name').html(room_name);
+        let room_passcode_string = room.room_passcode ? ': ' + room.room_passcode : '';
+        let room_title = room_name + room_passcode_string;
+        $('#room_name').html(room_title);
         $('#zoom_out_button').hide();
         $('#zoom_in_button').show();
 

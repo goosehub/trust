@@ -15,15 +15,16 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
-
-
-DROP TABLE `favorite_room`;
-DROP TABLE `message`;
-DROP TABLE `request`;
-DROP TABLE `room`;
-DROP TABLE `user`;
-DROP TABLE `world`;
-
+-- Hard drop
+SET foreign_key_checks = 0;
+DROP TABLE IF EXISTS `favorite_room`;
+DROP TABLE IF EXISTS `message`;
+DROP TABLE IF EXISTS `request`;
+DROP TABLE IF EXISTS `room`;
+DROP TABLE IF EXISTS `room_members`;
+DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `world`;
+SET foreign_key_checks = 1;
 
 --
 -- Database: `trust`
@@ -36,7 +37,7 @@ DROP TABLE `world`;
 --
 
 CREATE TABLE `favorite_room` (
-  `id` int(10) NOT NULL,
+  `id` int(10) UNSIGNED NOT NULL,
   `room_key` int(10) UNSIGNED NOT NULL,
   `world_key` int(10) UNSIGNED NOT NULL,
   `user_key` int(10) UNSIGNED NOT NULL,
@@ -109,6 +110,20 @@ CREATE TABLE `room` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `room_members`
+--
+
+CREATE TABLE `room_members` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `room_key` int(10) UNSIGNED NOT NULL,
+  `world_key` int(10) UNSIGNED NOT NULL,
+  `user_key` int(10) UNSIGNED NOT NULL,
+  `created` timestamp NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user`
 --
 
@@ -172,6 +187,12 @@ ALTER TABLE `room`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `room_members`
+--
+ALTER TABLE `room_members`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -191,7 +212,7 @@ ALTER TABLE `world`
 -- AUTO_INCREMENT for table `favorite_room`
 --
 ALTER TABLE `favorite_room`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `message`
 --
@@ -206,6 +227,11 @@ ALTER TABLE `request`
 -- AUTO_INCREMENT for table `room`
 --
 ALTER TABLE `room`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `room_members`
+--
+ALTER TABLE `room_members`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `user`
@@ -224,12 +250,16 @@ ALTER TABLE `world`
 
 ALTER TABLE `favorite_room`
   ADD CONSTRAINT `favorite_rooms_room_key_cascade` FOREIGN KEY (`room_key`) REFERENCES `room` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `room_members`
+  ADD CONSTRAINT `room_members_room_key_cascade` FOREIGN KEY (`room_key`) REFERENCES `room` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `message`
   ADD CONSTRAINT `message_room_key_cascade` FOREIGN KEY (`room_key`) REFERENCES `room` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `favorite_room`
   ADD CONSTRAINT `favorite_rooms_world_key_cascade` FOREIGN KEY (`world_key`) REFERENCES `world` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `room_members`
+  ADD CONSTRAINT `room_members_world_key_cascade` FOREIGN KEY (`world_key`) REFERENCES `world` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `message`
   ADD CONSTRAINT `message_world_key_cascade` FOREIGN KEY (`world_key`) REFERENCES `world` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;

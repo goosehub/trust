@@ -31,6 +31,10 @@ class Room extends CI_Controller {
         if ($user) {
             $room['is_favorite'] = $this->room_model->get_favorite_room($user['id'], $room_id);
         }
+        $room['is_member'] = false;
+        if ($user) {
+            $room['is_member'] = $this->room_model->get_room_memeber($user['id'], $room_id);
+        }
 
         // Handle room not found
         if (!$room) {
