@@ -35,6 +35,9 @@ class Room extends CI_Controller {
         if ($user) {
             $room['is_member'] = $this->room_model->get_room_memeber($user['id'], $room_id);
         }
+        if (!$room['is_member']) {
+            $room['room_passcode'] = '';
+        }
 
         // Handle room not found
         if (!$room) {
@@ -44,6 +47,48 @@ class Room extends CI_Controller {
 
         // Return room
         echo api_response($room);
+    }
+
+    public function join_crew_room()
+    {
+        // Authentication
+        $user = $this->user_model->get_this_user();
+
+        // Validate input
+        $input = get_json_post(true);
+        if (!$user) {
+            echo api_error_response('auth_missing', 'Must be logged in.');
+            return false;
+        }
+        if (!isset($input->room_passcode) || !$input->room_passcode) {
+            echo api_error_response('room_passcode_missing', 'Room passcode is a required parameter and was not provided.');
+            return false;
+        }
+        if (!isset($input->room_id) || !$input->room_id) {
+            echo api_error_response('room_id_missing', 'Room id is a required parameter and was not provided.');
+            return false;
+        }
+        // Check if already joined
+        $is_member = $this->room_model->get_room_memeber($user['id'], $input->room_id);
+        if ($is_member) {
+            echo api_error_response('already_member', 'You have already joined this crew.');
+            return false;
+        }
+        // Verify passcode, use hash equals to prevent timing attack
+        $room = $this->room_model->get_room_by_id($input->room_id);
+        if (!hash_equals($room['room_passcode'], $input->room_passcode)) {
+            echo api_error_response('incorrect_room_passcode', 'Room passcode incorrect.');
+            return false;
+        }
+
+        // Create member record
+        $data['member_created'] = $this->room_model->create_room_memeber($user['id'], $input->room_id, $input->room_passcode);
+        if (!$data['member_created']) {
+            echo api_error_response('already_member', 'You have already joined this crew.');
+            return false;
+        }
+
+        echo api_response($data);
     }
 
     public function create()
@@ -60,6 +105,10 @@ class Room extends CI_Controller {
 
         // Validate input
         $input = get_json_post(true);
+        if (!$user) {
+            echo api_error_response('auth_missing', 'Must be logged in.');
+            return false;
+        }
         if (!isset($input->room_name) || !$input->room_name) {
             echo api_error_response('room_name_missing', 'Room name is a required parameter and was not provided.');
             return false;

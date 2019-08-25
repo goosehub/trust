@@ -93,13 +93,29 @@ $('#favorite_world_button').click(function(){
     favorite_world();
 });
 
+// Join crew room on button click
+$('#join_crew_room').off().click(function(){
+    join_crew_room();
+});
+
+function join_crew_room() {
+    data = {};
+    data.room_id = room_id;
+    data.room_passcode = $('#input_room_passcode_join').val();
+    ajax_post('room/join_crew_room', data, function(room){
+        load_room(room_id);
+    });
+}
+
 function load_pm(receiving_user_key, receiving_username, sending_username) {
     data = {};
     data.receiving_user_key = receiving_user_key;
     data.sending_username = sending_username;
     data.receiving_username = receiving_username;
     ajax_post('room/create_pm_room', data, function(room){
-        load_room(room.id);
+        setTimeout(function(){
+            load_room(room.id);
+        }, 1000);
     });
 };
 
@@ -111,12 +127,19 @@ function load_room(room_id) {
         $('#message_input').focus();
         $('#room_parent').fadeIn();
 
+        if (!room.id) {
+            return false;
+        }
+
         // Set up room
         window.location.hash = room_id;
+        console.log('marco');
+        console.log(room);
+        console.log(room.name);
         let room_name = parse_room_name(room.name);
-        let room_passcode_string = room.room_passcode ? ': ' + room.room_passcode : '';
-        let room_title = room_name + room_passcode_string;
-        $('#room_name').html(room_title);
+        let passcode_string = room.room_passcode ? 'PC: ' + room.room_passcode : '';
+        $('.room_name').html(room_name);
+        $('#room_passcode').html(passcode_string);
         $('#zoom_out_button').hide();
         $('#zoom_in_button').show();
 
@@ -130,6 +153,13 @@ function load_room(room_id) {
         if (markers[room_id]) {
             markers[room_id].setIcon(current_marker_img);
             current_marker = markers[room_id];
+        }
+
+        $('#message_outer_parent').show();
+        $('#passcode_enter_parent').hide();
+        if (parseInt(room.is_base) && !room.is_member) {
+            $('#passcode_enter_parent').show();
+            $('#message_outer_parent').hide();
         }
 
         // Favorite button
@@ -208,8 +238,6 @@ function messages_load(room_key, inital_load) {
         $('#input_room_id').val(room_key);
         $('#input_world_id').val(world_id);
         $("#message_content_parent").html('');
-        room_name = $('#room_name').html();
-        $('title').html(room_name);
         last_message_id = 0;
     }
     else {
@@ -312,7 +340,9 @@ function messages_load(room_key, inital_load) {
                     html += '<span class="message_pin glyphicon glyphicon-pushpin" style="color: ' + message.color + ';"></span>';
                 }
                 html += '<span class="message_username" style="color: ' + message.color + ';">' + message.username + '</span>';
+                <?php if (ENABLE_CHAT_REPORTING) { ?>
                 html += '<a href="<?=base_url()?>chat/report/' + message.id + '" target="_blank" class="report_link" title="Report this post"><small class="glyphicon glyphicon-flag"></small></a> ';
+                <?php } ?>
                 html += '<span class="message_message">' + message_message + '</span>';
                 html += '</div>';
             });

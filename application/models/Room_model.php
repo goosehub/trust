@@ -146,6 +146,18 @@ Class room_model extends CI_Model
         return isset($result[0]) ? $result[0] : false;
     }
 
+    function create_room_memeber($user_key,  $room_key, $room_passcode)
+    {
+        $data = array(
+            'user_key' => $user_key,
+            'room_key' => $room_key,
+            'world_key' => WORLD_DEFAULT_ID,
+            'created' => date('Y-m-d H:i:s'),
+        );
+        $this->db->insert('room_members', $data);
+        return ($this->db->affected_rows() != 1) ? false : true;
+    }
+
     function delete_favorite_room($user_key, $room_key)
     {
         $this->db->where('user_key', $user_key);

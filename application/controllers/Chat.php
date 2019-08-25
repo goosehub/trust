@@ -26,6 +26,10 @@ class Chat extends CI_Controller {
             $limit = 5;
         }
 
+        if ($this->not_a_crew_member($room_key)) {
+            return;
+        }
+
         // Authentication
         // $data['user'] = $this->user_model->get_this_user();
 
@@ -53,6 +57,24 @@ class Chat extends CI_Controller {
         echo api_response($data);
     }
 
+    private function not_a_crew_member($room_key, $user = false)
+    {
+        $room = $this->room_model->get_room_by_id($room_key);
+        if ($room['is_base']) {
+            if (!$user) {
+                $user = $this->user_model->get_this_user();
+            }
+            if (!$user) {
+                return false;
+            }
+            $is_member = $this->room_model->get_room_memeber($user['id'], $room_key);
+            if (!$is_member) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function new_message()
     {
         // Validation
@@ -76,6 +98,15 @@ class Chat extends CI_Controller {
             return false;
         }
 
+        // htmlspecialchars is used inside api_response on output
+        $message = $this->input->post('message_input');
+        $room_key = $this->input->post('room_key');
+        $world_key = $this->input->post('world_key');
+
+        if ($this->not_a_crew_member($room_key, $user)) {
+            return;
+        }
+
         // Anonymous users
         if (!$user) {
             $user['id'] = ANONYMOUS_USER_ID;
@@ -87,11 +118,6 @@ class Chat extends CI_Controller {
                 $this->session->set_userdata('color', $user['color']);
             }
         }
-
-        // htmlspecialchars is used inside api_response on output
-        $message = $this->input->post('message_input');
-        $room_key = $this->input->post('room_key');
-        $world_key = $this->input->post('world_key');
 
         // Get most recent message
         $most_recent_message = $this->chat_model->get_last_message_in_room($room_key);

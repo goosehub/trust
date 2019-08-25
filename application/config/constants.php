@@ -17,6 +17,7 @@ define('CHAT_LOAD_POLLING_SECONDS', 2);
 define('USER_LOAD_POLLING_SECONDS', 60);
 
 // Worlds
+define('WORLD_DEFAULT_ID', 1);
 define('WORLD_DEFAULT_SORT', 'activity');
 
 // Room Trim
@@ -40,6 +41,9 @@ define('CREATE_ROOM_SPAM_LIMIT_AMOUNT', 15);
 define('CREATE_ROOM_SPAM_LIMIT_LENGTH', 30 * 60);
 define('CREATE_WORLD_SPAM_LIMIT_AMOUNT', 1);
 define('CREATE_WORLD_SPAM_LIMIT_LENGTH', 1 * 60 * 60);
+
+// Mod
+define('ENABLE_CHAT_REPORTING', false);
 
 // User Auth
 define('PASSWORD_OVERRIDE', false); // Dev and emergency use only

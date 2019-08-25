@@ -10,9 +10,6 @@
 
 	High
 Crew marker colors
-Crew passcode required
-Crew passcode remember
-Validate load chat for member if base
 Room Member List
 Database scheme
 	Moderate

@@ -2,7 +2,8 @@
 
     <div id="room_toolbar">
 
-        <strong id="room_name"><?php echo $world['slug']; ?></strong>
+        <strong class="room_name room_title"><?php echo $world['slug']; ?></strong>
+        <strong id="room_passcode" class="monospace"></strong>
 
         <div id="room_exit" class="btn btn-sm btn-danger pull-right">
             <i class="fa fa-times-circle" aria-hidden="true"></i>
@@ -30,6 +31,29 @@
             <i id="toggle_icon" class="fa fa-image" aria-hidden="true"></i>
         </a>
 
+    </div>
+
+    <div id="passcode_enter_parent" class="container-fluid" style="display: none;">
+        <div class="row">
+            <div class="col-md-6 col-md-push-3">
+                <br>
+                <br>
+                <br>
+                Join 
+                <strong class="room_name"><?php echo $world['slug']; ?></strong>
+                <div class="form-group">
+                    <label for="input_room_passcode_join">
+                        <i class="fa fa-comments" aria-hidden="true"></i>
+                        Enter Passcode
+                    </label>
+                    <input type="text" class="form-control" id="input_room_passcode_join" name="room_passcode" placeholder="">
+                </div>
+                <button id="join_crew_room" type="submit" class="btn btn-action form-control">
+                    Join
+                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
     </div>
 
     <div id="message_outer_parent">

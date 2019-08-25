@@ -42,6 +42,9 @@ body {
     border-radius: 0;
     font-family: "Roboto", sans-serif;
 }
+body .monospace {
+  font-family: monospace;
+}
 
 /* Landing */
 .left-landing {
@@ -197,7 +200,7 @@ body {
     background-color: #F4F4F4;
     color: #222;
 }
-#room_name {
+.room_title {
     padding: 0.4em 1em 0.4em 1em;
     border-radius: 0 0 1em;
     font-size: 1.6em;

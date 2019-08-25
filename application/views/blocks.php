@@ -16,13 +16,15 @@
         <div class="row">
             <div class="room_type_select_parent col-sm-6">
                 <button class="room_type_select_public room_type_action_button form-control menu_element btn btn-action">
-                    <i class="fa fa-users" aria-hidden="true"></i>
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                    <i class="fa fa-user" aria-hidden="true"></i>
                     Public
                 </button>
             </div>
             <div class="landing_register_button_parent col-sm-6">
                 <button class="room_type_select_crew room_type_action_button form-control menu_element btn btn-default">
-                    <i class="fa fa-user-friends" aria-hidden="true"></i>
+                    <i class="fa fa-users" aria-hidden="true"></i>
                     Crew
                 </button>
             </div>
