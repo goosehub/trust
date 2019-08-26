@@ -19,6 +19,8 @@ var red_marker_img = 'https://maps.google.com/mapfiles/ms/icons/red-dot.png';
 var purple_marker_img = 'https://maps.google.com/mapfiles/ms/icons/purple-dot.png';
 var yellow_marker_img = 'https://maps.google.com/mapfiles/ms/icons/yellow-dot.png';
 var orange_marker_img = 'https://maps.google.com/mapfiles/ms/icons/orange-dot.png';
+var light_blue_marker_img = 'https://maps.google.com/mapfiles/ms/icons/ltblue-dot.png';
+var pink_marker_img = 'https://maps.google.com/mapfiles/ms/icons/pink-dot.png';
 
 // Map room polling
 var map_room_polling_seconds = <?php echo MAP_ROOM_POLLING_SECONDS; ?>;
@@ -185,8 +187,8 @@ function initMap() {
                     marker.setIcon(current_marker_img);
                     current_marker = marker;
                 }
-                else if (favorite_room_keys.includes(parseInt(room.id))) {
-                    marker.setIcon(favorite_marker_img);
+                else if (room.id) {
+                    marker.setIcon(find_icon_to_use(room.id, room.is_base));
                 }
 
                 // Open room on click
@@ -297,6 +299,8 @@ function initMap() {
 }
 
 function find_icon_to_use(room_id, room_is_base) {
+    room_id = parseInt(room_id);
+    room_is_base = parseInt(room_is_base);
     if (favorite_room_keys.includes(room_id)) {
         return favorite_marker_img;
     }
