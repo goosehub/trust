@@ -88,11 +88,6 @@ $('#favorite_room_button').click(function(){
     favorite_room(room_id);
 });
 
-// Favorite current world
-$('#favorite_world_button').click(function(){
-    favorite_world();
-});
-
 // Join crew room on button click
 $('#join_crew_room').off().click(function(){
     join_crew_room();
@@ -188,7 +183,6 @@ function favorite_room(room_id) {
     // Send request
     data = {};
     data.room_id = room_id;
-    data.world_id = world_id;
     ajax_post('room/favorite', data, function(response){
         // Activate favorite button
         if ($('#favorite_room_button').hasClass('btn-success')) {
@@ -198,25 +192,6 @@ function favorite_room(room_id) {
             $('#favorite_room_button').removeClass('btn-default').addClass('btn-success');
         }
         load_user();
-    });
-}
-
-function favorite_world() {
-    // Send request
-    data = {};
-    data.world_id = world_id;
-    ajax_post('world/favorite', data, function(response){
-        // Activate favorite button
-        if ($('#favorite_world_button').hasClass('active')) {
-            $('#favorite_world_button').removeClass('active');
-            $('#favorite_world_add_icon').show();
-            $('#favorite_world_remove_icon').hide();
-        }
-        else {
-            $('#favorite_world_button').addClass('active');
-            $('#favorite_world_remove_icon').show();
-            $('#favorite_world_add_icon').hide();
-        }
     });
 }
 
@@ -236,7 +211,6 @@ function messages_load(room_key, inital_load) {
     }
     if (inital_load) {
         $('#input_room_id').val(room_key);
-        $('#input_world_id').val(world_id);
         $("#message_content_parent").html('');
         last_message_id = 0;
     }
@@ -249,7 +223,6 @@ function messages_load(room_key, inital_load) {
         data: {
             user_key: user.id,
             room_key: room_key,
-            world_key: world_id,
             inital_load: inital_load,
             last_message_id: last_message_id
         },
@@ -364,7 +337,6 @@ function submit_new_message(event) {
     // Message input
     var message_input = $("#message_input").val();
     var room_key = $('#input_room_id').val();
-    var world_key = $('#input_world_id').val();
     // Empty chat input
     $('#message_input').val('');
     $.ajax({
@@ -373,7 +345,6 @@ function submit_new_message(event) {
         data: {
             message_input: message_input,
             room_key: room_key,
-            world_key: world_key
         },
         cache: false,
         success: function(response) {

@@ -121,6 +121,7 @@ Class user_model extends CI_Model
             $data = array(
             'username' => $username,
             'password' => password_hash($password, PASSWORD_BCRYPT),
+            'room_key' => null,
             'api_key' => $api_key,
             'email' => $email,
             'ip' => $ip,

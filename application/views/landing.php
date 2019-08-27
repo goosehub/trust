@@ -158,7 +158,7 @@
 
                     <?php if ($user) { ?>
                     <div class="well">
-                        <a href="" class="btn btn-lg btn-action">
+                        <a href="world" class="btn btn-lg btn-action">
                             Go To Game
                         </a>
                         <p class="pull-right">

@@ -10,7 +10,7 @@ Class room_model extends CI_Model
 
         // Create system start message
         $message = $this->system_start_room_message();
-        $result = $this->chat_model->new_message(SYSTEM_USER_ID, SYSTEM_START_ROOM_USERNAME, '#000000', '', $message, $room_id, $data['world_key']);
+        $result = $this->chat_model->new_message(SYSTEM_USER_ID, SYSTEM_START_ROOM_USERNAME, '#000000', '', $message, $room_id);
         
         return $room_id;
     }
@@ -33,11 +33,10 @@ Class room_model extends CI_Model
         return $result;
     }
 
-    function get_all_rooms_by_last_activity($last_activity_in_minutes, $world_key)
+    function get_all_rooms_by_last_activity($last_activity_in_minutes)
     {
         $this->db->select('*');
         $this->db->from('room');
-        $this->db->where('world_key', $world_key);
         $this->db->where('is_pm', 0);
         $this->db->where('archived', 0);
         $this->db->where('last_message_time >', date('Y-m-d H:i:s', time() - $last_activity_in_minutes * 60));
@@ -46,12 +45,11 @@ Class room_model extends CI_Model
         return $result;
     }
 
-    function get_recent_rooms($world_key, $limit)
+    function get_recent_rooms($limit)
     {
         $this->db->limit($limit);
         $this->db->select('last_message_time');
         $this->db->from('room');
-        $this->db->where('world_key', $world_key);
         $this->db->where('is_pm', 0);
         $this->db->where('archived', 0);
         $this->db->order_by('last_message_time', 'asc');
@@ -71,7 +69,7 @@ Class room_model extends CI_Model
         return isset($result[0]) ? $result[0] : false;
     }
 
-    function get_room_by_location($lat, $lng, $world_key)
+    function get_room_by_location($lat, $lng)
     {
         // Double check these inputs just incase
         if (!is_numeric($lat) || !is_numeric($lng)) {
@@ -82,7 +80,6 @@ Class room_model extends CI_Model
         $this->db->from('room');
         $this->db->where('CAST(lat AS DECIMAL(12,4)) =', 'CAST(' . $lat . ' AS DECIMAL(12,4))', false);
         $this->db->where('CAST(lng AS DECIMAL(12,4)) =', 'CAST(' . $lng . ' AS DECIMAL(12,4))', false);
-        $this->db->where('world_key', $world_key);
         $this->db->where('is_pm', 0);
         $this->db->where('archived', 0);
         $query = $this->db->get();
@@ -90,12 +87,11 @@ Class room_model extends CI_Model
         return isset($result[0]) ? $result[0] : false;
     }
 
-    function get_rooms_by_user_key($user_key, $world_key)
+    function get_rooms_by_user_key($user_key)
     {
         $this->db->select('*');
         $this->db->from('room');
         $this->db->where('user_key', $user_key);
-        $this->db->where('world_key', $world_key);
         $this->db->where('is_pm', 0);
         $this->db->where('archived', 0);
         $query = $this->db->get();
@@ -151,7 +147,6 @@ Class room_model extends CI_Model
         $data = array(
             'user_key' => $user_key,
             'room_key' => $room_key,
-            'world_key' => WORLD_DEFAULT_ID,
             'created' => date('Y-m-d H:i:s'),
         );
         $this->db->insert('room_members', $data);
@@ -165,35 +160,32 @@ Class room_model extends CI_Model
         $this->db->delete('favorite_room');
     }
 
-    function create_favorite_room($user_key, $room_key, $world_key)
+    function create_favorite_room($user_key, $room_key)
     {
         $data = array(
             'user_key' => $user_key,
             'room_key' => $room_key,
-            'world_key' => $world_key,
             'created' => date('Y-m-d H:i:s'),
         );
         $this->db->insert('favorite_room', $data);
     }
 
-    function get_favorite_rooms_by_user_key($user_key, $world_key)
+    function get_favorite_rooms_by_user_key($user_key)
     {
         $this->db->select('*');
         $this->db->from('room');
         $this->db->where('favorite_room.user_key', $user_key);
-        $this->db->where('favorite_room.world_key', $world_key);
         $this->db->join('favorite_room', 'favorite_room.room_key = room.id', 'right');
         $query = $this->db->get();
         $result = $query->result_array();
         return $result;
     }
 
-    function get_joined_rooms_by_user_key($user_key, $world_key)
+    function get_joined_rooms_by_user_key($user_key)
     {
         $this->db->select('*');
         $this->db->from('room');
         $this->db->where('room_members.user_key', $user_key);
-        $this->db->where('room_members.world_key', $world_key);
         $this->db->join('room_members', 'room_members.room_key = room.id', 'right');
         $query = $this->db->get();
         $result = $query->result_array();

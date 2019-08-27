@@ -39,7 +39,6 @@ SET foreign_key_checks = 1;
 CREATE TABLE `favorite_room` (
   `id` int(10) UNSIGNED NOT NULL,
   `room_key` int(10) UNSIGNED NOT NULL,
-  `world_key` int(10) UNSIGNED NOT NULL,
   `user_key` int(10) UNSIGNED NOT NULL,
   `created` timestamp NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -53,7 +52,6 @@ CREATE TABLE `favorite_room` (
 CREATE TABLE `message` (
   `id` int(10) UNSIGNED NOT NULL,
   `user_key` int(10) UNSIGNED NOT NULL,
-  `world_key` int(10) UNSIGNED NOT NULL,
   `room_key` int(10) UNSIGNED NOT NULL,
   `username` varchar(64) NOT NULL,
   `color` varchar(8) NOT NULL,
@@ -91,7 +89,6 @@ CREATE TABLE `request` (
 CREATE TABLE `room` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(100) NOT NULL,
-  `world_key` int(10) UNSIGNED NOT NULL,
   `user_key` int(10) UNSIGNED NULL,
   `receiving_user_key` int(10) UNSIGNED NULL,
   `is_pm` bit(1) NOT NULL,
@@ -116,7 +113,6 @@ CREATE TABLE `room` (
 CREATE TABLE `room_members` (
   `id` int(10) UNSIGNED NOT NULL,
   `room_key` int(10) UNSIGNED NOT NULL,
-  `world_key` int(10) UNSIGNED NOT NULL,
   `user_key` int(10) UNSIGNED NOT NULL,
   `created` timestamp NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -130,7 +126,9 @@ CREATE TABLE `room_members` (
 CREATE TABLE `user` (
   `id` int(10) UNSIGNED NOT NULL,
   `username` varchar(100) NOT NULL,
+  `room_key` int(10) UNSIGNED NULL,
   `last_load` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `room` int(10) UNSIGNED NOT NULL,
   `ab_test` varchar(100) NOT NULL,
   `color` varchar(8) NOT NULL,
   `location` varchar(100) NOT NULL,
@@ -143,20 +141,6 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
-
---
--- Table structure for table `world`
---
-
-CREATE TABLE `world` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `slug` varchar(100) NOT NULL,
-  `user_key` int(10) UNSIGNED NOT NULL,
-  `archived` bit(1) NOT NULL,
-  `last_load` timestamp NOT NULL,
-  `created` timestamp NOT NULL,
-  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Indexes for dumped tables
@@ -199,12 +183,6 @@ ALTER TABLE `user`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `world`
---
-ALTER TABLE `world`
-  ADD PRIMARY KEY (`id`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -238,15 +216,13 @@ ALTER TABLE `room_members`
 --
 ALTER TABLE `user`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `world`
---
-ALTER TABLE `world`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
+
+ALTER TABLE `user`
+  ADD CONSTRAINT `user_room_cascade` FOREIGN KEY (`room_key`) REFERENCES `room` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 ALTER TABLE `favorite_room`
   ADD CONSTRAINT `favorite_rooms_room_key_cascade` FOREIGN KEY (`room_key`) REFERENCES `room` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -255,21 +231,3 @@ ALTER TABLE `room_members`
 
 ALTER TABLE `message`
   ADD CONSTRAINT `message_room_key_cascade` FOREIGN KEY (`room_key`) REFERENCES `room` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE `favorite_room`
-  ADD CONSTRAINT `favorite_rooms_world_key_cascade` FOREIGN KEY (`world_key`) REFERENCES `world` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-ALTER TABLE `room_members`
-  ADD CONSTRAINT `room_members_world_key_cascade` FOREIGN KEY (`world_key`) REFERENCES `world` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE `message`
-  ADD CONSTRAINT `message_world_key_cascade` FOREIGN KEY (`world_key`) REFERENCES `world` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
-ALTER TABLE `room`
-  ADD CONSTRAINT `rooms_world_key_cascade` FOREIGN KEY (`world_key`) REFERENCES `world` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
--- 
--- Data
--- 
-
-INSERT INTO `world` (`id`, `slug`, `user_key`, `archived`, `last_load`, `created`, `modified`) VALUES
-(1, 'world', 1, 0, '2019-08-20 12:00:00', '0000-00-00 00:00:00', '2019-08-20 12:00:00');

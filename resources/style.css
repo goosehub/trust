@@ -92,7 +92,7 @@ body .monospace {
 /* Map */
 #map {
     height: 100%;
-    width: 50%;
+    width: 33.3%;
 }
 
 /* Overlay */
@@ -124,7 +124,7 @@ body .monospace {
 #menu_parent {
     position: absolute;
     top: 0.5em;
-    right: 55%;
+    right: 70%;
     opacity: 0.95;
     z-index: 5;
 }
@@ -139,7 +139,7 @@ body .monospace {
 #address_search_parent {
     position: absolute;
     top: 3.5em;
-    right: 55%;
+    right: 70%;
     opacity: 0.95;
     z-index: 4;
 }
@@ -152,8 +152,8 @@ body .monospace {
     max-height: 75vh;
     overflow-y: auto;
     overflow-x: hidden;
-    left: 5%;
-    width: 40%;
+    left: 5.6%;
+    width: 22%;
     background: #fff;
     padding: 1em;
     border: 1px solid #222;
@@ -172,8 +172,8 @@ body .monospace {
     float: right;
 }
 #create_room_block {
-    width: 25%;
-    left: 12.5%;
+    width: 22%;
+    left: 5.6%;
 }
 
 /* Create Room */
@@ -188,8 +188,8 @@ body .monospace {
     top: 0vh;
     max-height: 100vh;
     height: 100vh;
-    left: 50%;
-    width: 50%;
+    left: 33.3%;
+    width: 33.3%;
     border-radius: 0;
     opacity: 0.98;
     background-color: #222;
@@ -226,14 +226,38 @@ body .monospace {
     }
 }
 
+/* Player */
+#player_parent {
+    position: absolute;
+    z-index: 10;
+    top: 0vh;
+    max-height: 100vh;
+    height: 100vh;
+    left: 66.6%;
+    width: 33.3%;
+    border-radius: 0;
+    opacity: 0.98;
+    background-color: #F4F4F4;
+    color: #222;
+    transition: background-color 1s ease;
+}
+.player_card {
+    width: 100%;
+    text-align: left;
+    border: 1px solid #222;
+    padding-left: 0.8em;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+}
+
 /* Content */
 #message_content_parent {
     /* Fix chat to bottom */
     position: fixed;
     bottom: 4em;
     max-height: calc(100vh - 4em);
-    width: 50%;
-    max-width: 50%;
+    width: 33%;
+    max-width: 33%;
     overflow: auto;
     overflow-x: hidden;
     font-size: 1.2em;
@@ -361,7 +385,7 @@ body .monospace {
 #message_input_parent {
     position: fixed;
     z-index: 20;
-    width: 50vw;
+    width: 33vw;
     bottom: 0;
 }
 #message_input {
@@ -393,6 +417,17 @@ body .monospace {
         width: 100%;
     }
     #room_parent {
+        display: none;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        opacity: 0.95;
+        max-height: 100vh;
+        height: 100vh;
+        width: 100%;
+    }
+    #player_parent {
         display: none;
         left: 0;
         top: 0;

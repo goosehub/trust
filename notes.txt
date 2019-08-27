@@ -9,8 +9,14 @@
 ========================
 
 	High
-Crew marker colors
 Room Member List
+Visible Info Setting
+Jail Chat
+Alias System
+Control over every piece of information shown
+Job expire timer
+Jobs UI
+Mobile
 Database scheme
 	Moderate
 UI

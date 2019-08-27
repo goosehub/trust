@@ -71,7 +71,7 @@ function getShareUrl(filter) {
     let current_zoom = map.getZoom();
     let current_map_type = map.getMapTypeId();
     let current_filter = filter ? filter : current_last_activity_slug;
-    return '<?=base_url()?><?php echo $world['slug']; ?>'
+    return '<?=base_url()?>world'
     + '?lat=' + current_lat 
     + '&lng=' + current_lng 
     + '&zoom=' + current_zoom 
@@ -110,7 +110,7 @@ setInterval(function(){
 }, user_load_polling_seconds * 1000);
 
 function load_user() {
-    var url = 'main/load_user/' + world_id;
+    var url = 'main/load_user/';
     ajax_get(url, function(result){
         favorite_rooms = result.favorite_rooms;
         update_favorite_rooms();

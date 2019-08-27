@@ -37,8 +37,7 @@
             Name
         </label>
         <input type="text" class="form-control" id="input_room_name" name="room_name" placeholder="">
-        <input type="hidden" id="input_world_key" name="world_key" value="<?php echo $world['id']; ?>">
-        <input type="hidden" id="input_is_base" name="world_key" value="">
+        <input type="hidden" id="input_is_base" name="is_base" value="">
     </div>
     <div class="form-group room_typt_crew" style="display: none;">
         <label for="input_room_passcode">

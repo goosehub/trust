@@ -147,7 +147,7 @@ class Room extends CI_Controller {
         // Check that no room at that location exists
         $input->lat = number_format($input->lat, 4);
         $input->lng = number_format($input->lng, 4);
-        $room_exists_at_location = $this->room_model->get_room_by_location($input->lat, $input->lng, $input->world_id);
+        $room_exists_at_location = $this->room_model->get_room_by_location($input->lat, $input->lng);
         if ($room_exists_at_location) {
             echo api_error_response('room_exists_at_location', 'Room at that location already exists.');
             return false;
@@ -156,7 +156,6 @@ class Room extends CI_Controller {
         // Create room
         $room = array();
         $room['name'] = $input->room_name;
-        $room['world_key'] = $input->world_key;
         $room['is_base'] = $input->is_base;
         $room['room_passcode'] = $input->room_passcode;
         $room['lat'] = $input->lat;
@@ -206,7 +205,6 @@ class Room extends CI_Controller {
         // Create room
         $room = array();
         $room['name'] = $input->sending_username . '|' . $input->receiving_username;
-        $room['world_key'] = 1;
         $room['lat'] = number_format(0, 4);
         $room['lng'] = number_format(0, 4);
         $room['last_message_time'] = date('Y-m-d H:i:s');
@@ -238,10 +236,6 @@ class Room extends CI_Controller {
             echo api_error_response('room_id_missing', 'Room id is a required parameter and was not provided.');
             return false;
         }
-        if (!isset($input->world_id)) {
-            echo api_error_response('world_id_missing', 'World id is a required parameter and was not provided.');
-            return false;
-        }
 
         // Check if room is already a favorite
         $get_favorite = $this->room_model->get_favorite_room($user['id'], $input->room_id);
@@ -252,7 +246,7 @@ class Room extends CI_Controller {
         }
         // If not current favorite, insert favorite
         else {
-            $this->room_model->create_favorite_room($user['id'], $input->room_id, $input->world_id);
+            $this->room_model->create_favorite_room($user['id'], $input->room_id);
         }
 
         // Respond

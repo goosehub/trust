@@ -101,7 +101,6 @@ class Chat extends CI_Controller {
         // htmlspecialchars is used inside api_response on output
         $message = $this->input->post('message_input');
         $room_key = $this->input->post('room_key');
-        $world_key = $this->input->post('world_key');
 
         if ($this->not_a_crew_member($room_key, $user)) {
             return;
@@ -125,11 +124,11 @@ class Chat extends CI_Controller {
         // If it's been a while since last message, system message on time
         if ($most_recent_message && strtotime($most_recent_message['timestamp']) + MINUTES_BETWEEN_MESSAGES_TO_SHOW_DATE * 60 < time()) {
             $date_message = time();
-            $this->chat_model->new_message(SYSTEM_USER_ID, SYSTEM_DATE_USERNAME, '#000000', '', $date_message, $room_key, $world_key);
+            $this->chat_model->new_message(SYSTEM_USER_ID, SYSTEM_DATE_USERNAME, '#000000', '', $date_message, $room_key);
         }
 
         // Insert message
-        $this->chat_model->new_message($user['id'], $user['username'], $user['color'], $ip, $message, $room_key, $world_key);
+        $this->chat_model->new_message($user['id'], $user['username'], $user['color'], $ip, $message, $room_key);
 
         $this->chat_model->mark_pm_room_as_unread($room_key, $user['id']);
 

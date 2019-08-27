@@ -9,7 +9,6 @@ class Main extends CI_Controller {
         $this->load->model('main_model', '', TRUE);
         $this->load->model('user_model', '', TRUE);
         $this->load->model('room_model', '', TRUE);
-        $this->load->model('world_model', '', TRUE);
 
         // Force ssl
         if (!is_dev()) {
@@ -25,7 +24,7 @@ class Main extends CI_Controller {
         $data['user'] = $this->user_model->get_this_user();
 
         // Decide sort
-        $data['sort'] = $this->input->get('sort') ? $this->input->get('sort') : WORLD_DEFAULT_SORT;
+        $data['sort'] = $this->input->get('sort') ? $this->input->get('sort') : 'activity';
 
         // Load view
         $data = $this->registration_starting_details($data);
@@ -38,7 +37,7 @@ class Main extends CI_Controller {
         $this->load->view('templates/footer', $data);
     }
 
-    public function world($slug = 'world')
+    public function world()
     {
         // Authentication
         $data['user'] = $this->user_model->get_this_user();
@@ -46,26 +45,15 @@ class Main extends CI_Controller {
             redirect(base_url(), 'refresh');
         }
 
-        // Get World
-        $data['world'] = $this->world_model->get_world_by_slug($slug);
-        if (!$data['world']) {
-            $this->output->set_status_header('404');
-            $this->load->view('templates/world_404', $data);
-            return;
-        }
-
         // Get filters
         $data['filters'] = $this->get_filters();
 
-        if ($data['user']) {
-            // Include owned rooms
-            // $data['user']['rooms'] = $this->room_model->get_rooms_by_user_key($data['user']['id'], $data['world']['id']);
+        if ($data['user']) {            
+            // Include favorite_roomd rooms
+            $data['user']['favorite_rooms'] = $this->room_model->get_favorite_rooms_by_user_key($data['user']['id']);
             
             // Include favorite_roomd rooms
-            $data['user']['favorite_rooms'] = $this->room_model->get_favorite_rooms_by_user_key($data['user']['id'], $data['world']['id']);
-            
-            // Include favorite_roomd rooms
-            $data['user']['joined_rooms'] = $this->room_model->get_joined_rooms_by_user_key($data['user']['id'], $data['world']['id']);
+            $data['user']['joined_rooms'] = $this->room_model->get_joined_rooms_by_user_key($data['user']['id']);
         }
 
         // Get last activity filter if exists
@@ -74,11 +62,11 @@ class Main extends CI_Controller {
         }
         // Use last activity default first
         else {
-            $data['current_last_activity_filter'] = $this->determine_default_activity($data['world']['id']);
+            $data['current_last_activity_filter'] = $this->determine_default_activity();
         }
 
         // Get rooms by last activity
-        $data['rooms'] = $this->room_model->get_all_rooms_by_last_activity($data['current_last_activity_filter']['minutes_ago'], $data['world']['id']);
+        $data['rooms'] = $this->room_model->get_all_rooms_by_last_activity($data['current_last_activity_filter']['minutes_ago']);
 
         // Calculate a center and zoom that makes sense per the pins
         $data = $this->get_smart_center_and_zoom($data);
@@ -103,17 +91,19 @@ class Main extends CI_Controller {
 
         // Load view
         $data = $this->registration_starting_details($data);
-        $data['page_title'] = $slug;
+        $data['page_title'] = site_name();
         $data['landing'] = false;
         $this->load->view('templates/header', $data);
         $this->load->view('menus', $data);
         $this->load->view('search', $data);
         $this->load->view('blocks', $data);
         $this->load->view('room', $data);
+        $this->load->view('player', $data);
         $this->load->view('login', $data);
         $this->load->view('report_bugs', $data);
         $this->load->view('scripts/map_script', $data);
         $this->load->view('scripts/chat_script', $data);
+        $this->load->view('scripts/player_script', $data);
         $this->load->view('scripts/interface_script', $data);
         $this->load->view('templates/footer', $data);
     }
@@ -199,10 +189,10 @@ class Main extends CI_Controller {
         }
     }
 
-    public function determine_default_activity($world_id)
+    public function determine_default_activity()
     {
         // return $data['filters'][LAST_ACTIVITY_DEFAULT];
-        $recent_rooms = $this->room_model->get_recent_rooms($world_id, DEFAULT_NUMBER_OF_ROOMS);
+        $recent_rooms = $this->room_model->get_recent_rooms(DEFAULT_NUMBER_OF_ROOMS);
         if (empty($recent_rooms)) {
             return $this->get_filters()['all'];
         }
@@ -249,7 +239,7 @@ class Main extends CI_Controller {
         }
 
         // Get rooms by last activity
-        $data['rooms'] = $this->room_model->get_all_rooms_by_last_activity($data['current_last_activity_filter']['minutes_ago'], $this->input->get('world_id'));
+        $data['rooms'] = $this->room_model->get_all_rooms_by_last_activity($data['current_last_activity_filter']['minutes_ago']);
 
         // Return rooms
         echo api_response($data['rooms']);
@@ -270,12 +260,12 @@ class Main extends CI_Controller {
         return $location_prepopulate;
     }
 
-    public function load_user($world_id = false)
+    public function load_user()
     {
         // Authentication
         $data = $this->user_model->get_this_user();
         if ($data) {
-            $data['favorite_rooms'] = $this->room_model->get_favorite_rooms_by_user_key($data['id'], $world_id);
+            $data['favorite_rooms'] = $this->room_model->get_favorite_rooms_by_user_key($data['id']);
         }
         // htmlspecialchars is used inside api_response
         echo api_response($data);
