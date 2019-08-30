@@ -227,14 +227,16 @@ body .monospace {
 }
 
 /* Player */
-#player_parent {
+#player_list_parent {
     position: absolute;
     z-index: 10;
     top: 0vh;
     max-height: 100vh;
     height: 100vh;
-    left: 66.6%;
+    left: 66.7%;
     width: 33.3%;
+    overflow: auto;
+    overflow-x: hidden;
     border-radius: 0;
     opacity: 0.98;
     background-color: #F4F4F4;

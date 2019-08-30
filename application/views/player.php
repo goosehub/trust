@@ -1,4 +1,4 @@
-<div id="player_parent">
+<div id="player_list_parent">
 
     <?php
     $info = array(
@@ -15,10 +15,12 @@
     )
     ?>
 
+    <?php for ($i = 0; $i < 12; $i++) { ?>
+
     <div class="player_card row">
         <?php foreach ($info as $key => $value) { ?>
         <?php if (is_null($value)) { continue; } ?>
-        <div class="player_info_card col-md-4">
+        <div class="player_info_card col-md-4 col-sm-3 col-xs-4">
             <label class="<?php echo $key; ?>_label">
                 <?php echo $key; ?>
             </label>
@@ -29,46 +31,6 @@
         <?php } ?>
     </div>
 
-    <div class="player_card row">
-        <?php foreach ($info as $key => $value) { ?>
-        <?php if (is_null($value)) { continue; } ?>
-        <div class="player_info_card col-md-4">
-            <label class="<?php echo $key; ?>_label">
-                <?php echo $key; ?>
-            </label>
-            <span class="<?php echo $key; ?>_value">
-                <?php echo $value; ?>
-            </span>
-        </div>
-        <?php } ?>
-    </div>
-
-    <div class="player_card row">
-        <?php foreach ($info as $key => $value) { ?>
-        <?php if (is_null($value)) { continue; } ?>
-        <div class="player_info_card col-md-4">
-            <label class="<?php echo $key; ?>_label">
-                <?php echo $key; ?>
-            </label>
-            <span class="<?php echo $key; ?>_value">
-                <?php echo $value; ?>
-            </span>
-        </div>
-        <?php } ?>
-    </div>
-
-    <div class="player_card row">
-        <?php foreach ($info as $key => $value) { ?>
-        <?php if (is_null($value)) { continue; } ?>
-        <div class="player_info_card col-md-4">
-            <label class="<?php echo $key; ?>_label">
-                <?php echo $key; ?>
-            </label>
-            <span class="<?php echo $key; ?>_value">
-                <?php echo $value; ?>
-            </span>
-        </div>
-        <?php } ?>
-    </div>
+    <?php } ?>
 
 </div>

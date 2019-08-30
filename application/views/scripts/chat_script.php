@@ -1,6 +1,6 @@
 <script>
 var last_message_id = 0;
-var at_bottom = true;
+var chat_at_bottom = true;
 var load_messages = true;
 var window_active = true;
 var page_title = '';
@@ -9,6 +9,7 @@ var users_array = new Array();
 var room_name = '<?php echo site_name(); ?>';
 var load_interval = <?php echo CHAT_LOAD_POLLING_SECONDS; ?>;
 var system_user_id = <?php echo SYSTEM_USER_ID; ?>;
+var global_room_id = null;
 
 $(document).on('click', '.message_pin', function(event) {
     pin_action(event);
@@ -26,17 +27,6 @@ $('#toggle_theme').click(function(event) {
     toggle_theme($('#toggle_theme').hasClass('active'));
 });
 
-// If client has theme stored and value is light, toggle to light
-if (localStorage.getItem('theme') === 'light') {
-    toggle_theme(true);
-}
-else if (localStorage.getItem('theme') === 'dark') {
-    toggle_theme(false);
-}
-else  {
-    toggle_theme(false);
-}
-
 // Keep dropdown open on altering color
 $('#input_user_color').click(function(event){
     event.stopPropagation();
@@ -53,33 +43,10 @@ $('#input_user_color').change(function(event){
 
 // Detect if user is at bottom
 $('#message_content_parent').scroll(function() {
-    at_bottom = false;
+    chat_at_bottom = false;
     if ($('#message_content_parent').prop('scrollHeight') - $('#message_content_parent').scrollTop() <= Math.ceil($('#message_content_parent').height())) {
-        at_bottom = true;
+        chat_at_bottom = true;
     }
-});
-
-// Detect if window is open
-$(window).blur(function() {
-    window_active = false;
-});
-$(window).focus(function() {
-    missed_messages = 0;
-    $('title').html(room_name);
-    window_active = true;
-});
-
-// If hash exists, it is a room id, load that room
-if (window.location.hash) {
-    // Remove hash to get room id and load room
-    var room_id = window.location.hash.replace('#', '');
-    load_room(room_id);
-}
-
-// Load favorite room
-$('#favorites_dropdown').on('click', '.favorite_room_link', function(){
-    room_id = $(this).attr('room_id') ? $(this).attr('room_id') : $(this).parent().attr('room_id');
-    load_room(room_id);
 });
 
 // Favorite room
@@ -91,6 +58,43 @@ $('#favorite_room_button').click(function(){
 // Join crew room on button click
 $('#join_crew_room').off().click(function(){
     join_crew_room();
+});
+
+$(document).ready(function(){
+
+    // If client has theme stored and value is light, toggle to light
+    if (localStorage.getItem('theme') === 'light') {
+        toggle_theme(true);
+    }
+    else if (localStorage.getItem('theme') === 'dark') {
+        toggle_theme(false);
+    }
+    else  {
+        toggle_theme(false);
+    }
+
+    // Detect if window is open
+    $(window).blur(function() {
+        window_active = false;
+    });
+    $(window).focus(function() {
+        missed_messages = 0;
+        $('title').html(room_name);
+        window_active = true;
+    });
+
+    // If hash exists, it is a room id, load that room
+    if (window.location.hash) {
+        // Remove hash to get room id and load room
+        var room_id = window.location.hash.replace('#', '');
+        load_room(room_id);
+    }
+});
+
+// Load favorite room
+$('#favorites_dropdown').on('click', '.favorite_room_link', function(){
+    room_id = $(this).attr('room_id') ? $(this).attr('room_id') : $(this).parent().attr('room_id');
+    load_room(room_id);
 });
 
 function join_crew_room() {
@@ -115,6 +119,7 @@ function load_pm(receiving_user_key, receiving_username, sending_username) {
 };
 
 function load_room(room_id) {
+    global_room_id = room_id;
     // Get room
     ajax_get('room/get_room/' + room_id, function(room){
         // Ensure chat window is set up
@@ -172,6 +177,8 @@ function load_room(room_id) {
         messages_load_interval_id = setInterval(function() {
             messages_load(room_id, false);
         }, load_interval * 1000);
+
+        player_list_load(room_id);
     });
 }
 
@@ -205,11 +212,11 @@ function parse_room_name(room_name) {
 }
 
 // Message Load
-function messages_load(room_key, inital_load) {
+function messages_load(room_key, chat_inital_load) {
     if (!load_messages) {
         return false;
     }
-    if (inital_load) {
+    if (chat_inital_load) {
         $('#input_room_id').val(room_key);
         $("#message_content_parent").html('');
         last_message_id = 0;
@@ -223,7 +230,7 @@ function messages_load(room_key, inital_load) {
         data: {
             user_key: user.id,
             room_key: room_key,
-            inital_load: inital_load,
+            chat_inital_load: chat_inital_load,
             last_message_id: last_message_id
         },
         cache: false,
@@ -233,7 +240,7 @@ function messages_load(room_key, inital_load) {
             if (response === 'reload') {
                 window.location.reload(true);
             }
-            if (inital_load) {
+            if (chat_inital_load) {
                 $("#message_content_parent").html('');
             }
             if (!response) {
@@ -289,7 +296,7 @@ function messages_load(room_key, inital_load) {
                 // Update latest message id
                 last_message_id = message.id;
                 // If window is not active, give feedback in tab title
-                if (!window_active && !inital_load && message.user_key != system_user_id) {
+                if (!window_active && !chat_inital_load && message.user_key != system_user_id) {
                     missed_messages++;
                     $('title').html('(' + missed_messages + ') ' + room_name);
                 }
@@ -325,8 +332,8 @@ function messages_load(room_key, inital_load) {
             // Append to div
             $("#message_content_parent").append(html);
             // Stay at bottom if at bottom
-            if (at_bottom || inital_load) {
-                scroll_to_bottom();
+            if (chat_at_bottom || chat_inital_load) {
+                chat_scroll_to_bottom();
             }
         }
     });
@@ -358,7 +365,7 @@ function submit_new_message(event) {
             // Focus back on input
             $('#message_input').focus();
             // Scroll to bottom
-            scroll_to_bottom();
+            chat_scroll_to_bottom();
         }
     });
     return false;
@@ -415,7 +422,7 @@ function use_pin(message) {
     return false;
 }
 
-function scroll_to_bottom() {
+function chat_scroll_to_bottom() {
     $("#message_content_parent").scrollTop($("#message_content_parent")[0].scrollHeight);
 }
 
