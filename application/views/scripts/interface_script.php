@@ -7,6 +7,13 @@ $('.report_bugs_button').click(function(){
     $('#report_bugs_block').show();
 });
 
+$('#join_room').click(function(){
+    join_room();
+});
+$('#leave_room').click(function(){
+    leave_room();
+});
+
 var user;
 <?php if ($user) { ?>
 user = <?php echo json_encode($user); ?>;
@@ -53,6 +60,31 @@ $('#input_user_location').click(function(event){
 });
 
 <?php if (!$landing) { ?>
+function join_room() {
+    if (!global_room_id) {
+        return false;
+    }
+    data = {};
+    data.room_key = global_room_id;
+    ajax_post('user/join_room', data, function(response){
+        console.log('marco');
+        $('#join_room').hide();
+        $('#leave_room').show();
+        player_list_load(global_room_id, false);
+    });
+}
+function leave_room() {
+    if (!global_room_id) {
+        return false;
+    }
+    data = {};
+    ajax_post('user/leave_room', data, function(response){
+        $('#join_room').show();
+        $('#leave_room').hide();
+        player_list_load(global_room_id, false);
+    });
+}
+
 function update_location() {
     user_location = $('#input_user_location').val();
     if (!user_location) {

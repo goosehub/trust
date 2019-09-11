@@ -118,8 +118,19 @@ function load_pm(receiving_user_key, receiving_username, sending_username) {
     });
 };
 
+function toggle_room_join() {
+    $('#join_room, #leave_room').hide();
+    if (parseInt(user.room_key) === parseInt(global_room_id)) {
+        $('#leave_room').show();
+    }
+    else {
+        $('#join_room').show();
+    }
+}
+
 function load_room(room_id) {
     global_room_id = room_id;
+    toggle_room_join();
     // Get room
     ajax_get('room/get_room/' + room_id, function(room){
         // Ensure chat window is set up

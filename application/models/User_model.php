@@ -6,8 +6,17 @@ Class user_model extends CI_Model
     // Get all users
     function get_all_users()
     {
-        $this->db->select('id, username, color, location, created');
+        $this->db->select('id, username, color, location, room_key, created');
         $this->db->from('user');
+        $query = $this->db->get();
+        $result = $query->result_array();
+        return $result;
+    }
+    function get_all_users_by_room_key($room_key)
+    {
+        $this->db->select('id, username, color, location, room_key, created');
+        $this->db->from('user');
+        $this->db->where('room_key', $room_key);
         $query = $this->db->get();
         $result = $query->result_array();
         return $result;
@@ -51,7 +60,7 @@ Class user_model extends CI_Model
     }
     function get_user_by_id($user_id)
     {
-        $this->db->select('id, username, color, location, created');
+        $this->db->select('id, username, color, location, room_key, created');
         $this->db->from('user');
         $this->db->where('id', $user_id);
         $this->db->limit(1);
@@ -162,6 +171,15 @@ Class user_model extends CI_Model
     {
         $data = array(
             'location' => $location
+        );
+        $this->db->where('id', $user_id);
+        $this->db->update('user', $data);
+        return true;
+    }
+    function update_room($user_id, $room_key)
+    {
+        $data = array(
+            'room_key' => $room_key
         );
         $this->db->where('id', $user_id);
         $this->db->update('user', $data);

@@ -227,7 +227,7 @@ body .monospace {
 }
 
 /* Player */
-#player_list_parent {
+#player_list_container {
     position: absolute;
     z-index: 10;
     top: 0vh;

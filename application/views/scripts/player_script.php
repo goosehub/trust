@@ -41,7 +41,6 @@ function player_list_load(room_key, player_list_initial_load) {
             }
             html = '';
             $.each(data['player_list'], function(i, player) {
-            	console.log(player);
                 html += '<div class="player_card row">'
                 html += player_info_block('username', player.username);
                 html += player_info_block('foobar', 'boobaz');

@@ -211,4 +211,28 @@ class User extends CI_Controller {
         $color = '#' . $color;
         return $color;
     }
+
+    public function join_room()
+    {
+        $user = $this->user_model->get_this_user();
+
+        $input = get_json_post(true);
+        if (!isset($input->room_key) || !$input->room_key) {
+            echo api_error_response('no_room_key_provided', 'room_key is required to update your room_key and was not provided.');
+            return false;
+        }
+        $this->user_model->update_room($user['id'], $input->room_key);
+
+        echo api_response(array());
+    }
+
+    public function leave_room()
+    {
+        $user = $this->user_model->get_this_user();
+
+        $this->user_model->update_room($user['id'], null);
+
+        echo api_response(array());
+    }
+
 }
