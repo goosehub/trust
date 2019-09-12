@@ -3,10 +3,49 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 Class user_model extends CI_Model
 {
+    public $user_select_list = '
+    id, 
+    username, 
+    color, 
+    location,
+    room_key,
+    last_load,
+    cash,
+    cash_received,
+    time_served_minutes,
+    good_reputation,
+    bad_reputation,
+    (good_reputation - bad_reputation) as net_reputation,
+    (good_reputation + bad_reputation) as sum_reputation,
+    jobs_led,
+    jobs_success,
+    jobs_failed,
+    (jobs_success + jobs_failed) as sum_jobs,
+    bails_paid_count,
+    bails_paid_amount,
+    arrested,
+    in_jail_time_minutes,
+    fines_paid,
+    payouts_stolen,
+    crews_joined,
+    kills,
+    skill_thief,
+    skill_muscle,
+    skill_driver,
+    skill_conman,
+    skill_cracker,
+    skill_hacker,
+    skill_fixer,
+    is_dead,
+    is_in_jail,
+    jail_sentence_end_timestamp,
+    created,
+    ';
+
     // Get all users
     function get_all_users()
     {
-        $this->db->select('id, username, color, location, room_key, created');
+        $this->db->select($this->user_select_list);
         $this->db->from('user');
         $query = $this->db->get();
         $result = $query->result_array();
@@ -14,7 +53,7 @@ Class user_model extends CI_Model
     }
     function get_all_users_by_room_key($room_key)
     {
-        $this->db->select('id, username, color, location, room_key, created');
+        $this->db->select($this->user_select_list);
         $this->db->from('user');
         $this->db->where('room_key', $room_key);
         $query = $this->db->get();
@@ -60,7 +99,7 @@ Class user_model extends CI_Model
     }
     function get_user_by_id($user_id)
     {
-        $this->db->select('id, username, color, location, room_key, created');
+        $this->db->select($this->user_select_list);
         $this->db->from('user');
         $this->db->where('id', $user_id);
         $this->db->limit(1);

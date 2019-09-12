@@ -42,12 +42,18 @@ function player_list_load(room_key, player_list_initial_load) {
             html = '';
             $.each(data['player_list'], function(i, player) {
                 html += '<div class="player_card row">'
-                html += player_info_block('username', player.username);
-                html += player_info_block('foobar', 'boobaz');
-                html += player_info_block('foobar', 'boobaz');
-                html += player_info_block('foobar', 'boobaz');
-                html += player_info_block('foobar', 'boobaz');
-                html += player_info_block('foobar', 'boobaz');
+                html += player_info_block('Alias', player.username, 'string');
+                html += player_info_block('Cash', player.cash, 'money');
+                html += player_info_block('Thief', player.skill_thief, 'skill');
+                html += player_info_block('Muscle', player.skill_muscle, 'skill');
+                html += player_info_block('Driver', player.skill_driver, 'skill');
+                html += player_info_block('Conman', player.skill_conman, 'skill');
+                html += player_info_block('Cracker', player.skill_cracker, 'skill');
+                html += player_info_block('Hacker', player.skill_hacker, 'skill');
+                html += player_info_block('Fixer', player.skill_fixer, 'skill');
+                html += player_info_block('Net Reputation', player.net_reputation, 'number');
+                html += player_info_block('Sum Reputation', player.sum_reputation, 'number');
+                html += player_info_block('Jobs Done', player.sum_jobs, 'number');
                 html += '</div>'
             });
             // Append to div
@@ -60,7 +66,8 @@ function player_list_load(room_key, player_list_initial_load) {
     });
 }
 
-function player_info_block(key, value) {
+function player_info_block(key, value, type) {
+    value = player_stat_format(value, type);
     if (!value) {
         return '';
     }
@@ -74,6 +81,21 @@ function player_info_block(key, value) {
         </span>
     </div>
     `;
+}
+
+function player_stat_format(value, type) {
+    if (type === 'string') {
+        return value;
+    }
+    if (type === 'number') {
+        return value.replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    }
+    if (type === 'money') {
+        return '$' + parseFloat(value).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
+    }
+    if (type === 'skill') {
+        return 'Amateur';
+    }
 }
 
 function player_list_scroll_to_bottom() {
